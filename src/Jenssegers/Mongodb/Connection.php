@@ -38,9 +38,10 @@ class Connection extends \Illuminate\Database\Connection {
 			// Build the connection string
 			$dsn = $this->getDsn($config);
 
-			// You can pass options directly to the MogoClient constructor
-			$options = array_get($config, 'options', array());
 		}
+		
+		// You can pass options directly to the MogoClient constructor
+		$options = array_get($config, 'options', array());
 		
         // Create the connection
         $this->connection = $this->createConnection($dsn, $config, $options);
