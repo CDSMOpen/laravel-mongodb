@@ -31,7 +31,7 @@ class Connection extends \Illuminate\Database\Connection {
         $this->config = $config;
 
 		//Check if there is a connection string
-		$this->connectionString = array_get($config, 'connectionString', string());
+		$this->connectionString = array_get($config, 'connectionString');
 		if (!empty($this->connectionString)){
 			$dsn = $this->connectionString;
 		} else {		
@@ -39,7 +39,7 @@ class Connection extends \Illuminate\Database\Connection {
 			$dsn = $this->getDsn($config);
 		}
 		
-		// You can pass options directly to the MogoClient constructor
+		// You can pass options directly to the MongoClient constructor
 		$options = array_get($config, 'options', array());
 		
         // Create the connection
