@@ -3,6 +3,7 @@
 use MongoId;
 use MongoRegex;
 use MongoDate;
+use MongoClient;
 use DateTime;
 use Closure;
 
@@ -186,6 +187,10 @@ class Builder extends \Illuminate\Database\Query\Builder {
 
             // Execute query and get MongoCursor
             $cursor = $this->collection->find($wheres, $columns);
+			
+			// NG HACK READ PREF FOR REPLICA SETS
+			$cursor->setReadPreference(MongoClient::RP_PRIMARY_PREFERRED);   
+			// END HACK
 
             // Apply order, offset and limit
             if ($this->orders) $cursor->sort($this->orders);
@@ -459,6 +464,9 @@ class Builder extends \Illuminate\Database\Query\Builder {
         {
             $this->collection = $this->connection->getCollection($collection);
         }
+		// NG HACK READ PREF FOR REPLICA SETS
+		$this->collection->setReadPreference(MongoClient::RP_PRIMARY_PREFERRED);   
+		// END HACK
 
         return parent::from($collection);
     }

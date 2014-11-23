@@ -27,15 +27,21 @@ class Connection extends \Illuminate\Database\Connection {
      * @return void
      */
     public function __construct(array $config)
-    {
+    {	
         $this->config = $config;
 
-        // Build the connection string
-        $dsn = $this->getDsn($config);
-
-        // You can pass options directly to the MogoClient constructor
-        $options = array_get($config, 'options', array());
-
+		//Check if there is a connection string
+		$this->connectionString = array_get($config, 'connectionString');
+		if (!empty($this->connectionString)){
+			$dsn = $this->connectionString;
+		} else {		
+			// Build the connection string
+			$dsn = $this->getDsn($config);
+		}
+		
+		// You can pass options directly to the MogoClient constructor
+		$options = array_get($config, 'options', array());
+		
         // Create the connection
         $this->connection = $this->createConnection($dsn, $config, $options);
 
